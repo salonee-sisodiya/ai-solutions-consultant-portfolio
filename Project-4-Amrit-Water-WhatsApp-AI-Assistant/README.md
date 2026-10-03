@@ -135,7 +135,7 @@ Customer order → AI-generated order summary → Customer confirmation → Conf
 
 The following screenshot demonstrates the end-to-end customer order and confirmation flow.
 
-![WhatsApp Order Confirmation](screenshots/amrit-water-whatsapp-order-confirmation.png)
+<img src="./screenshots/amrit-water-whatsapp-order-confirmation.png" alt="WhatsApp Order Confirmation" width="600">
 My Role — AI Solutions Consultant
 
 This project was developed as an independent AI Solutions Consulting portfolio case study.
