@@ -1,0 +1,956 @@
+{
+  "name": "WhatsApp Cloud API Webhook",
+  "nodes": [
+    {
+      "parameters": {
+        "multipleMethods": true,
+        "path": "amrit-water-bot-v2",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "fe07bb25-399c-4267-b1a0-32a366feb1f6",
+      "name": "WhatsApp Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -832,
+        288
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "verify-mode",
+              "leftValue": "={{ $json.query[\"hub.mode\"] }}",
+              "rightValue": "subscribe",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "5a227e0f-7375-4e01-93cf-b08d06f98b29",
+      "name": "Is Verification Request",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -576,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "token-match",
+              "leftValue": "={{ $json.query[\"hub.verify_token\"] }}",
+              "rightValue": "YOUR_META_WEBHOOK_VERIFY_TOKEN",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "966cc47c-8b88-4d02-832f-c68c5bae9f96",
+      "name": "Verify Token Matches",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -192,
+        112
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.query[\"hub.challenge\"] }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "de16c688-7397-4fa8-ba21-dd664057d8d4",
+      "name": "Return hub.challenge",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "Forbidden",
+        "options": {
+          "responseCode": 403
+        }
+      },
+      "id": "d69740b3-4c3a-4fbc-a941-79e3e229f056",
+      "name": "Return 403 Forbidden",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        0,
+        192
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "from",
+              "name": "from",
+              "value": "={{ $json.body.entry[0].changes[0].value.messages[0].from }}",
+              "type": "string"
+            },
+            {
+              "id": "message_text",
+              "name": "message_text",
+              "value": "={{ $json.body.entry[0].changes[0].value.messages[0].text.body }}",
+              "type": "string"
+            },
+            {
+              "id": "message_id",
+              "name": "message_id",
+              "value": "={{ $json.body.entry[0].changes[0].value.messages[0].id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a29d2cd8-89f3-4226-ad69-a3ee387fbefd",
+      "name": "Process Incoming Message",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -416,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "EVENT_RECEIVED",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "4245382e-d818-45fe-87e9-c39a400a21d9",
+      "name": "Acknowledge Message",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        -192,
+        384
+      ]
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1-MINI"
+        },
+        "responses": {
+          "values": [
+            {
+              "role": "system",
+              "content": "=You are an order information extraction assistant for Amrit Water Bottles.\n\nYour job is to analyze the customer's latest WhatsApp message and determine what the customer is communicating.\n\nBUSINESS RULES:\n\n- Amrit Water is a wholesale business.\n- The order quantity is always recorded in CARTONS.\n- 1 carton = 12 bottles.\n- The only bottle size currently available is 500 ml.\n- Therefore, bottle_size should be \"500ml\" whenever the customer is placing or updating an order, unless the customer clearly indicates otherwise.\n- Never invent missing order information.\n- Never round bottle quantities up or down to create a carton.\n\nThere are two possible situations:\n\n1. NEW ORDER / ORDER DETAILS\n\nThe customer is providing or changing order information such as:\n- quantity of cartons\n- bottle quantity\n- delivery location\n- phone number\n- customization\n\nBecause this is a wholesale business, convert bottle quantities into cartons ONLY when the bottle quantity is exactly divisible by 12.\n\nExamples:\n\n\"1 carton\" → quantity_cartons: 1\n\n\"2 cartons\" → quantity_cartons: 2\n\n\"12 bottles\" → quantity_cartons: 1\n\n\"24 bottles\" → quantity_cartons: 2\n\n\"36 bottles\" → quantity_cartons: 3\n\nIf the customer gives a bottle quantity that is NOT divisible by 12, such as:\n\"2 bottles\"\n\"10 bottles\"\n\"15 bottles\"\n\nDO NOT round or guess the carton quantity.\nReturn quantity_cartons as an empty string.\n\n2. ORDER CONFIRMATION\n\nThe customer is confirming an order that was previously summarized by the bot.\n\nExamples of confirmation messages:\n- Yes\n- Yes, all details are correct\n- Confirm\n- Please confirm my order\n- The details are correct\n- Go ahead\n- Proceed with the order\n- Yes, place the order\n- I confirm\n\nIMPORTANT:\n\nIf the latest message is only confirming a previously discussed order, DO NOT treat it as a new order and DO NOT ask the customer for the order details again.\n\nReturn the result as JSON only.\n\nUse this structure:\n\n{\n  \"intent\": \"new_order\" or \"confirmation\",\n  \"bottle_size\": \"\",\n  \"quantity_cartons\": \"\",\n  \"delivery_location\": \"\",\n  \"phone_number\": \"\",\n  \"customization\": \"\"\n}\n\nFor a confirmation message, return:\n\n{\n  \"intent\": \"confirmation\",\n  \"bottle_size\": \"\",\n  \"quantity_cartons\": \"\",\n  \"delivery_location\": \"\",\n  \"phone_number\": \"\",\n  \"customization\": \"\"\n}\n\nFor a new order:\n- quantity_cartons must contain a NUMBER when a valid carton quantity is known.\n- If the customer provides a bottle quantity that is not divisible by 12, leave quantity_cartons empty.\n- bottle_size should be \"500ml\" because 500ml is the only available bottle size.\n- Do not invent or guess delivery location, phone number, or customization.\n\nReturn JSON only.\nDo not include explanations, markdown, or additional text."
+            },
+            {
+              "content": "={{ $('WhatsApp Webhook').item.json.body.entry[0].changes[0].value.messages[0].text.body }}"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "id": "f54f975a-e41a-457d-bc7b-5b900783ae41",
+      "name": "extract order details",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        48,
+        608
+      ]
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1-MINI"
+        },
+        "responses": {
+          "values": [
+            {
+              "role": "system",
+              "content": "=You are the official WhatsApp AI Sales and Customer Support Assistant for Amrit Water Bottles.\n\nYour job is to respond to the customer based ONLY on the extracted order information provided in Message 2.\n\nMANDATORY ORDER FIELDS:\n- bottle_size\n- quantity_cartons\n- delivery_location\n- phone_number\n- customization\n\nSTRICT RULES:\n\n1. Check the \"missing_fields\" list from the extracted order information.\n\n2. If ANY mandatory field is missing:\n   - Do NOT proceed with order confirmation.\n   - Do NOT say the order is confirmed.\n   - Do NOT say you will forward/process the order.\n   - Ask ONLY for the missing mandatory field(s).\n   - Do not ask for fields that have already been provided.\n\n3. If all mandatory fields are present:\n   - Present the complete order details clearly.\n   - Ask the customer to confirm the order.\n   - Do NOT ask for payment method yet.\n\n4. Only AFTER the customer has explicitly confirmed the complete order should payment information be requested.\n\n5. Never invent missing information.\n\n6. Preserve the complete delivery address exactly as extracted, including shop/house number, locality, landmark, city, state, and PIN code.\n\n7. Keep responses concise, natural and suitable for WhatsApp.\n\n8. If customization is \"None\", say \"No customization\".\n\n9. Do not ask for the customer's name unless it is specifically required by the extracted order fields.\n\nThe extracted order information in Message 2 is the source of truth."
+            },
+            {
+              "content": "=Order has been saved successfully. Generate a short WhatsApp confirmation message for the customer using these order details:\n\n{{ JSON.stringify($json) }}\n\nConfirm the order politely and mention the bottle size, quantity, and delivery location."
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "id": "167949cd-9461-4d72-b403-562873b1520e",
+      "name": "Message a model",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        1488,
+        736
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "YOUR_WHATSAPP_PHONE_NUMBER_ID",
+        "recipientPhoneNumber": "={{ $('Process Incoming Message').first().json.from }}",
+        "textBody": "=✅ Order confirmed!\n\nYour Amrit Water order has been successfully confirmed.\n\nWe will process your order and keep you updated about delivery.\n\nThank you for choosing Amrit Water.",
+        "additionalFields": {}
+      },
+      "id": "bc53da47-87df-4092-aaca-aea5523007da",
+      "name": "Send message",
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1.1,
+      "position": [
+        1456,
+        432
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $json.output?.[0]?.content?.[0]?.text ?? '';\nlet parsed = {};\ntry {\n  parsed = JSON.parse(String(raw).trim());\n} catch (e) {\n  parsed = {};\n}\n\nconst cartonsRaw = parsed.quantity_cartons;\nlet quantity_cartons = null;\nif (cartonsRaw !== undefined && cartonsRaw !== null && String(cartonsRaw).trim() !== '') {\n  const n = Number(String(cartonsRaw).replace(/[^0-9.]/g, ''));\n  quantity_cartons = Number.isFinite(n) ? n : null;\n}\n\nreturn [{\n  json: {\n    intent: parsed.intent ?? '',\n    phone_number: $('Process Incoming Message').item.json.from ?? '',\n    bottle_size: parsed.bottle_size ?? '',\n    quantity_cartons,\n    delivery_location: parsed.delivery_location ?? '',\n    customization: parsed.customization_required ?? '',\n    status: 'new',\n  },\n}];"
+      },
+      "id": "8ec2755e-aa13-4649-9de8-223e9a7dc978",
+      "name": "Parse Order JSON",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        608
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "intent-order",
+              "leftValue": "={{ $json.intent }}",
+              "rightValue": "new_order",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "4f239a71-75c3-4739-a6b4-ceb4018028a1",
+      "name": "Is Order",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        976,
+        752
+      ]
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "YOUR_N8N_DATA_TABLE_ID",
+          "mode": "list",
+          "cachedResultName": "Amrit_waters_orders",
+          "cachedResultUrl": "/projects/YOUR_N8N_PROJECT_ID/datatables/YOUR_N8N_DATA_TABLE_ID"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "phone_number": "={{ $json.phone_number }}",
+            "bottle_size": "={{ $json.bottle_size }}",
+            "quantity_cartons": "={{ $json.quantity_cartons }}",
+            "delivery_location": "={{ $json.delivery_location }}",
+            "customization": "={{ $json.customization }}",
+            "status": "pending_confirmation"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "phone_number",
+              "displayName": "phone_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "bottle_size",
+              "displayName": "bottle_size",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "quantity_cartons",
+              "displayName": "quantity_cartons",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "delivery_location",
+              "displayName": "delivery_location",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "customization",
+              "displayName": "customization",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": true,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "947b268a-75da-4148-b670-aa26834696f2",
+      "name": "Save Order",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        1248,
+        736
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "fc34e828-2a5a-4f34-94b0-8f803fd61585",
+              "leftValue": "={{ Boolean($json.message_text && $json.message_text.trim()) }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -192,
+        624
+      ],
+      "id": "d3601f6d-9b58-4aa5-bd23-f4a3794fb5f6",
+      "name": "has message text"
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "YOUR_WHATSAPP_PHONE_NUMBER_ID",
+        "recipientPhoneNumber": "YOUR_CUSTOMER_PHONE_NUMBER",
+        "textBody": "={{ $('Message a model').first().json.output[0].content[0].text }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1.1,
+      "position": [
+        1792,
+        736
+      ],
+      "id": "f39b8f96-c967-4593-92d1-8633ab0f5125",
+      "name": "Send message1"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "YOUR_N8N_DATA_TABLE_ID",
+          "mode": "list",
+          "cachedResultName": "Amrit_waters_orders",
+          "cachedResultUrl": "/projects/YOUR_N8N_PROJECT_ID/datatables/YOUR_N8N_DATA_TABLE_ID"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "phone_number": "={{ JSON.parse($json.output[0].content[0].text).phone_number }}",
+            "bottle_size": "={{ JSON.parse($json.output[0].content[0].text).bottle_size }}",
+            "quantity_cartons": "={{ JSON.parse($json.output[0].content[0].text).quantity_cartons }}",
+            "delivery_location": "={{ JSON.parse($json.output[0].content[0].text).delivery_location }}",
+            "customization": "={{ JSON.parse($json.output[0].content[0].text).customization }}",
+            "status": "confirmed"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "phone_number",
+              "displayName": "phone_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "bottle_size",
+              "displayName": "bottle_size",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "quantity_cartons",
+              "displayName": "quantity_cartons",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "delivery_location",
+              "displayName": "delivery_location",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "customization",
+              "displayName": "customization",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        1280,
+        -576
+      ],
+      "id": "b9f07628-61ef-45e3-8ef0-c1c575e2f725",
+      "name": "Insert row"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "YOUR_N8N_DATA_TABLE_ID",
+          "mode": "list",
+          "cachedResultName": "Amrit_waters_orders",
+          "cachedResultUrl": "/projects/YOUR_N8N_PROJECT_ID/datatables/YOUR_N8N_DATA_TABLE_ID"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "phone_number",
+              "keyValue": "={{ $('Process Incoming Message').first().json.from }}"
+            },
+            {
+              "keyName": "status",
+              "keyValue": "pending_confirmation"
+            }
+          ]
+        },
+        "limit": 1
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        976,
+        432
+      ],
+      "id": "21c7b387-e937-4267-bede-763c5e0d01d3",
+      "name": "Get row(s)",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "c2c4d3af-02d9-4f23-8934-1ee4c72ca72b",
+              "leftValue": "={{ $json.intent }}",
+              "rightValue": "confirmation",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        736,
+        608
+      ],
+      "id": "7626f2e9-f09d-40a2-b704-9702130a922f",
+      "name": "is confirmation"
+    },
+    {
+      "parameters": {
+        "resource": "table",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        1536,
+        -592
+      ],
+      "id": "ebd26115-aa98-4a64-9abc-bb2c08260390",
+      "name": "List data tables"
+    },
+    {
+      "parameters": {
+        "resource": "table",
+        "operation": "create",
+        "tableName": "Amrit_waters_orders",
+        "columns": {
+          "column": [
+            {
+              "name": "phone_number"
+            },
+            {
+              "name": "bottle_size"
+            },
+            {
+              "name": "quantity_cartons",
+              "type": "number"
+            },
+            {
+              "name": "delivery_location"
+            },
+            {
+              "name": "customization"
+            },
+            {
+              "name": "status"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        1760,
+        -592
+      ],
+      "id": "75188a0e-a03d-49fa-8480-e2a28149a5d2",
+      "name": "Amrit_waters_orders"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "value": "YOUR_N8N_DATA_TABLE_ID",
+          "mode": "list",
+          "cachedResultName": "Amrit_waters_orders",
+          "cachedResultUrl": "/projects/YOUR_N8N_PROJECT_ID/datatables/YOUR_N8N_DATA_TABLE_ID"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyValue": "={{ $json.id }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "status": "confirmed"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "phone_number",
+              "displayName": "phone_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "bottle_size",
+              "displayName": "bottle_size",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "quantity_cartons",
+              "displayName": "quantity_cartons",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "delivery_location",
+              "displayName": "delivery_location",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "customization",
+              "displayName": "customization",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        1248,
+        432
+      ],
+      "id": "8b616e0a-3c80-45ed-bed2-9d9c73c4cdef",
+      "name": "Update row(s)"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "WhatsApp Webhook": {
+      "main": [
+        [
+          {
+            "node": "Is Verification Request",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Is Verification Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Verification Request": {
+      "main": [
+        [
+          {
+            "node": "Verify Token Matches",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Process Incoming Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verify Token Matches": {
+      "main": [
+        [
+          {
+            "node": "Return hub.challenge",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Return 403 Forbidden",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Incoming Message": {
+      "main": [
+        [
+          {
+            "node": "Acknowledge Message",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "has message text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "extract order details": {
+      "main": [
+        [
+          {
+            "node": "Parse Order JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Send message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Order JSON": {
+      "main": [
+        [
+          {
+            "node": "is confirmation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Order": {
+      "main": [
+        [
+          {
+            "node": "Save Order",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "has message text": {
+      "main": [
+        [
+          {
+            "node": "extract order details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Order": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s)": {
+      "main": [
+        [
+          {
+            "node": "Update row(s)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "is confirmation": {
+      "main": [
+        [
+          {
+            "node": "Get row(s)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Is Order",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row(s)": {
+      "main": [
+        [
+          {
+            "node": "Send message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "b540641a-1802-481c-8e2f-fb1e8e608925",
+  "nodeGroups": [],
+  "tags": [],
+  "_github_sanitization": {
+    "sanitized": true,
+    "note": "Credentials, secrets, phone numbers, internal n8n IDs and project-specific identifiers have been removed or replaced. Reconnect/configure them after import."
+  }
+}
