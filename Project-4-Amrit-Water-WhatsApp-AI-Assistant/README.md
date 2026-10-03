@@ -64,6 +64,7 @@ Confirmed Order
 | OpenAI GPT-4.1-mini | Natural-language understanding and structured extraction |
 | n8n Data Tables | Order data persistence |
 | Webhooks | Event-driven message processing |
+
 Key Workflow Components
 
 1. WhatsApp Webhook
