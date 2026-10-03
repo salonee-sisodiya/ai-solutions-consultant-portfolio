@@ -53,6 +53,8 @@ Order Persistence
 Customer Confirmation
    ↓
 Confirmed Order
+```
+
 ## Technology Stack
 
 | Technology | Purpose |
@@ -135,7 +137,7 @@ Customer order → AI-generated order summary → Customer confirmation → Conf
 
 The following screenshot demonstrates the end-to-end customer order and confirmation flow.
 
-<img src="./screenshots/amrit-water-whatsapp-order-confirmation.jpg" alt="WhatsApp Order Confirmation" width="600">
+![WhatsApp Order Confirmation](./screenshots/amrit-water-whatsapp-order-confirmation.jpg)
 My Role — AI Solutions Consultant
 
 This project was developed as an independent AI Solutions Consulting portfolio case study.
@@ -188,6 +190,7 @@ Project-4-Amrit-Water-WhatsApp-AI-Assistant/
 ├── screenshots/
 ├── workflow/
 └── README.md
+
 Project Takeaway
 
 This project demonstrates how an AI Solutions Consultant can combine business requirements, conversational AI, deterministic business logic, workflow automation, API integration, and structured data to design a practical AI-enabled business solution.
