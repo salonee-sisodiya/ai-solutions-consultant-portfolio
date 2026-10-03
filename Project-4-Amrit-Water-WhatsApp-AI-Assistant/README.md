@@ -131,6 +131,11 @@ WhatsApp Demonstration
 The following example shows the conversational order flow:
 
 Customer order → AI-generated order summary → Customer confirmation → Confirmed order
+### Live WhatsApp Order Flow
+
+The following screenshot demonstrates the end-to-end customer order and confirmation flow.
+
+![WhatsApp Order Confirmation](screenshots/amrit-water-whatsapp-order-confirmation.png)
 My Role — AI Solutions Consultant
 
 This project was developed as an independent AI Solutions Consulting portfolio case study.
