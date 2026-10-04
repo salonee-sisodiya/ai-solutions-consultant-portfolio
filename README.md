@@ -77,6 +77,39 @@ Project-3-AI-Evaluation-System/
 
 ---
 
+## Project 4 — Amrit Water WhatsApp AI Assistant
+
+Designed and implemented an AI-powered WhatsApp order assistant for a packaged drinking water business using WhatsApp Cloud API and n8n.
+
+### Business Problem
+
+Manual WhatsApp order handling can lead to repetitive work, ambiguous order details, and inconsistent order capture.
+
+### Solution
+
+Built a controlled AI workflow that interprets customer messages, extracts structured order information, validates business requirements, persists order data, and requests explicit customer confirmation before an order is confirmed.
+
+### Key Capabilities
+
+- WhatsApp Cloud API integration
+- AI-based order intent and information extraction
+- Structured order data
+- Business-rule validation
+- Order persistence
+- Customer confirmation workflow
+- Human-in-the-loop control
+- Sanitized n8n workflow for portfolio demonstration
+
+### Architecture
+
+Customer → WhatsApp → n8n → AI Order Extraction → Validation → Order Persistence → Customer Confirmation
+
+**Core principle:** The LLM interprets customer intent; the workflow controls business execution.
+
+Repository
+
+Project-4-Amrit-Water-WhatsApp-AI-Assistant/
+
 ## Architecture
 
 See Architecture-Diagrams folder.
