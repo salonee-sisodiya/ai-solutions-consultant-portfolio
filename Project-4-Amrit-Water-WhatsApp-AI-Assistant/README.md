@@ -160,6 +160,8 @@ My responsibilities included:
 The focus was on problem framing, solution architecture, AI workflow design, responsible AI usage, and business-process automation.
 
 Project Documentation
+- [Business Requirements Document (BRD)](docs/Amrit-water-BRD.pdf)
+- [Solution Design Document](docs/Amrit-water-solution-design.pdf)
 
 * Business Requirements Document⁠￼
 * Solution Design Document⁠￼
