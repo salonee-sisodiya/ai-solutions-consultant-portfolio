@@ -162,11 +162,10 @@ The focus was on problem framing, solution architecture, AI workflow design, res
 Project Documentation
 - [Business Requirements Document (BRD)](docs/Amrit%20-water-BRD.pdf)
 - - [Solution Design Document](docs/Amrit-water-solution-design.pdf)
+  - - [Sanitized n8n Workflow](workflow/amrit-water-whatsapp-ai-assistant.json)  - 
 
 
-* Sanitized n8n Workflow⁠￼
-
-The workflow shared in this repository is sanitized for portfolio use. Credentials, access tokens, and account-specific sensitive configuration have been removed.
+The workflow shared in  repository is sanitized for portfolio use. Credentials, access tokens, and account-specific sensitive configuration have been removed.
 
 Security
 
