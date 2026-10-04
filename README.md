@@ -127,9 +127,15 @@ Latest resume available in:
 
 ## Demo
 
-Flowise Demo
+### Amrit Water — WhatsApp AI Order Assistant
 
-(https://youtu.be/DfR6QR0GL3s)
+[Watch the Amrit Water WhatsApp AI Demo](https://youtu.be/-EyeYV5iyWg)
+
+### Enterprise Knowledge Assistant — RAG
+
+[Watch the RAG / Flowise Demo](https://youtu.be/Dr6RQROGL3s)
+
+A
 
 ---
 
