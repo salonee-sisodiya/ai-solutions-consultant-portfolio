@@ -160,9 +160,8 @@ My responsibilities included:
 The focus was on problem framing, solution architecture, AI workflow design, responsible AI usage, and business-process automation.
 
 Project Documentation
-- [Business Requirements Document (BRD)](/salonee-sisodiya/ai-solutions-consultant-portfolio/blob/main/Project-4-Amrit-Water-WhatsApp-AI-Assistant/docs/Amrit-water-BRD.pdf)
-- [Solution Design Document](/salonee-sisodiya/ai-solutions-consultant-portfolio/blob/main/Project-4-Amrit-Water-WhatsApp-AI-Assistant/docs/Amrit-water-solution-design.pdf)
-
+- [Business Requirements Document (BRD)](https://github.com/salonee-sisodiya/ai-solutions-consultant-portfolio/blob/main/Project-4-Amrit-Water-WhatsApp-AI-Assistant/docs/Amrit-water-BRD.pdf)
+- [Solution Design Document](https://github.com/salonee-sisodiya/ai-solutions-consultant-portfolio/blob/main/Project-4-Amrit-Water-WhatsApp-AI-Assistant/docs/Amrit-water-solution-design.pdf)
 ￼
 * Sanitized n8n Workflow⁠￼
 
