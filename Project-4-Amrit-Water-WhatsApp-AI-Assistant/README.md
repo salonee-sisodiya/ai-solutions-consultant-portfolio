@@ -160,7 +160,7 @@ My responsibilities included:
 The focus was on problem framing, solution architecture, AI workflow design, responsible AI usage, and business-process automation.
 
 Project Documentation
-Project-4-Amrit-Water-WhatsApp-AI-Assistant/docs/Amrit -water-BRD.pdf
+- [Business Requirements Document (BRD)](docs/Amrit%20-water-BRD.@PDF)
 
 
 * Sanitized n8n Workflow⁠￼
