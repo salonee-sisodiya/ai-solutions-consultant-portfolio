@@ -134,7 +134,8 @@ The workflow remains responsible for:
 * Data persistence
 * Order status
 * Confirmation handling
-* WhatsApp communication
+
+  ## WhatsApp communication
 
 This separation creates a more controlled AI automation architecture instead of allowing the LLM to make unrestricted business decisions.
 solution architecture
