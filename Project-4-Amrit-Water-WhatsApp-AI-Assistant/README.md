@@ -30,6 +30,15 @@ The objective was to create a structured conversational workflow that reduces ma
 The solution uses:
 
 **WhatsApp Cloud API → n8n → OpenAI → Structured Order Data → Business Rules → Order Confirmation**
+## Business Value
+
+The solution is designed to:
+
+- Reduce repetitive manual effort involved in reading and structuring WhatsApp orders
+- Improve consistency in order capture and validation
+- Reduce ambiguity by generating structured order summaries before confirmation
+- Maintain business control through deterministic rules and explicit customer confirmation
+- Provide a scalable foundation for future integrations with CRM, ERP, delivery tracking, and analytics systems
 
 ### High-Level Workflow
 
