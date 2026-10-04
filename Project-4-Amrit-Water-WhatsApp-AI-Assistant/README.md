@@ -155,7 +155,7 @@ My Role — AI Solutions Consultant
 
 This project was developed as an independent AI Solutions Consulting portfolio case study.
 
-My responsibilities included:
+## My responsibilities included:
 
 * Translating a real-world business process into an AI automation use case
 * Defining business requirements
@@ -171,7 +171,7 @@ My responsibilities included:
 
 The focus was on problem framing, solution architecture, AI workflow design, responsible AI usage, and business-process automation.
 
-Project Documentation
+## Project Documentation
 - [Business Requirements Document (BRD)](docs/Amrit%20-water-BRD.pdf)
 - - [Solution Design Document](docs/Amrit-water-solution-design.pdf)
   - - [Sanitized n8n Workflow](workflow/amrit-water-whatsapp-ai-assistant.json)  - 
@@ -199,11 +199,13 @@ Potential future iterations include:
 * Analytics and reporting
   
 ## Repository structure
+```text
 Project-4-Amrit-Water-WhatsApp-AI-Assistant/
 ├── docs/
 ├── screenshots/
 ├── workflow/
 └── README.md
+```
 
 ## Project Takeaway
 
