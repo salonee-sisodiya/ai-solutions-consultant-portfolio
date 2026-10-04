@@ -148,6 +148,9 @@ Customer order → AI-generated order summary → Customer confirmation → Conf
 The following screenshot demonstrates the end-to-end customer order and confirmation flow.
 
 ![WhatsApp Order Confirmation](./screenshots/amrit-water-whatsapp-order-confirmation.jpg)
+
+
+## 
 My Role — AI Solutions Consultant
 
 This project was developed as an independent AI Solutions Consulting portfolio case study.
@@ -176,13 +179,13 @@ Project Documentation
 
 The workflow shared in  repository is sanitized for portfolio use. Credentials, access tokens, and account-specific sensitive configuration have been removed.
 
-Security
+## Security
 
 No production access tokens, API keys, passwords, or active credentials are included in this repository.
 
 Credentials must be configured separately when deploying the workflow.
 
-Future Enhancements
+## Future Enhancements
 
 Potential future iterations include:
 
@@ -194,14 +197,15 @@ Potential future iterations include:
 * Human-agent escalation
 * CRM/ERP integration
 * Analytics and reporting
-repository structure
+  
+## Repository structure
 Project-4-Amrit-Water-WhatsApp-AI-Assistant/
 ├── docs/
 ├── screenshots/
 ├── workflow/
 └── README.md
 
-Project Takeaway
+## Project Takeaway
 
 This project demonstrates how an AI Solutions Consultant can combine business requirements, conversational AI, deterministic business logic, workflow automation, API integration, and structured data to design a practical AI-enabled business solution.
 
