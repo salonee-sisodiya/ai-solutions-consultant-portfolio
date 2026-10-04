@@ -163,8 +163,7 @@ Project Documentation
 - [Business Requirements Document (BRD)](docs/Amrit-water-BRD.pdf)
 - [Solution Design Document](docs/Amrit-water-solution-design.pdf)
 
-* Business Requirements Document⁠￼
-* Solution Design Document⁠￼
+￼
 * Sanitized n8n Workflow⁠￼
 
 The workflow shared in this repository is sanitized for portfolio use. Credentials, access tokens, and account-specific sensitive configuration have been removed.
