@@ -20,7 +20,7 @@ The latest resume highlights:
 
 ### Download Resume
 
-[View / Download AI Solutions Consultant Resume](Salonee_Sisodiya_AI_Solutions_Consultant_Resume.pdf)
+[View / Download AI Solutions Consultant Resume](Salonee_Sisodiya_AI_Solutions_Consultant_Resume%20.pdf)
 
 ### Portfolio
 
