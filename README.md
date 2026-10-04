@@ -87,8 +87,8 @@ See Architecture-Diagrams folder.
 
 Latest resume available in:
 
-Resume
-[View / Download AI Solutions Consultant Resume](Salonee_Sisodiya_AI_Solutions_Consultant_Resume%20.pdf)
+[View / Download AI Solutions Consultant Resume](Resume/Salonee_Sisodiya_AI_Solutions_Consultant_Resume%20.pdf)
+
 
 ---
 
