@@ -133,8 +133,8 @@ Latest resume available in:
 
 ### Enterprise Knowledge Assistant — RAG
 
-[Watch the RAG / Flowise Demo](https://youtu.be/Dr6RQROGL3s)
-
+[Watch the RAG / Flowise Demo]()[
+(https://youtu.be/DfR6QR0GL3s)]
 A
 
 ---
