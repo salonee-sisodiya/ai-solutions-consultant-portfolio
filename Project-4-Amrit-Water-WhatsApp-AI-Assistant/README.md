@@ -128,7 +128,7 @@ Lesson recorded: workflow changes take effect only when published, so a pre-rele
 - No delivery scheduling, stock checks or online payment
 - Abandoned drafts stay as `pending_confirmation` rows
 - Demo rates; one SKU; one service area
-- The title card of an earlier demo cut said "Google Sheets"; storage is n8n Data Tables
+
 
 ## Repository contents
 
