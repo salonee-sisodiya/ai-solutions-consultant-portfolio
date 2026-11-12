@@ -37,7 +37,7 @@ A wholesale packaged-water business takes orders and questions on WhatsApp. Cust
 
 ## Architecture
 
-```
+![Architecture diagram](../Architecture-Diagrams/amrit-water-agent-v2-architecture.png)```
 Customer (WhatsApp)
    -> Meta WhatsApp Cloud API -> n8n webhook
    -> message check -> AI Agent (Google Gemini, per-customer memory)
@@ -89,6 +89,20 @@ Customer (WhatsApp)
 | Model | Google Gemini (early testing used a Groq-hosted model) |
 | Storage | n8n Data Tables |
 | Memory | n8n Simple Memory, keyed by customer phone number |
+
+## Screenshots
+
+| n8n workflow | Order flow |
+| --- | --- |
+| ![Canvas](screenshots/v2-n8n-canvas.png) | ![Order flow](screenshots/v2-chat-order-flow-1.png)(screenshots/v2-chat-order-flow-2.png) (screenshots/v2-chat-order-flow-3.png)  |
+
+| Guardrails | Owner alerts |
+| --- | --- |
+| ![Guardrails](screenshots/v2-chat-guardrails.png) | ![Owner alerts](screenshots/v2-owner-alerts.png) |
+
+| Orders table | Price table |
+| --- | --- |
+| ![Orders](screenshots/v2-orders-table.png) | ![Prices](screenshots/v2-price-table.png) |
 
 ## Testing
 
