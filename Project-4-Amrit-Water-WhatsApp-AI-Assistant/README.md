@@ -37,7 +37,7 @@ A wholesale packaged-water business takes orders and questions on WhatsApp. Cust
 
 ## Architecture
 
-![Architecture diagram](../Architecture-Diagrams/amrit-water-agent-v2-architecture.png)```
+![Architecture diagram](../Architecture-Diagrams/amrit-water-agent-v2-architecture.png)
 Customer (WhatsApp)
    -> Meta WhatsApp Cloud API -> n8n webhook
    -> message check -> AI Agent (Google Gemini, per-customer memory)
@@ -45,7 +45,7 @@ Customer (WhatsApp)
                save_pending_order | update_order | notify_owner
    -> reply check (Code node) -> WhatsApp reply to customer
    Owner alerts -> WhatsApp message to the owner number
-```
+
 
 ### Tools
 
