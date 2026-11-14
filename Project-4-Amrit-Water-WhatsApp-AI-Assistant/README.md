@@ -2,8 +2,9 @@
 
 > A tool-using AI agent that answers price questions, takes and confirms wholesale water orders on WhatsApp, and escalates complaints, discounts and cancellations to the owner.
 > **Proof of concept.** Demo rates and test data only. Not a live deployment.
+> 
 
-**Demo video (about 3 minutes):** [amrit-water-ai-agent-demo.mp4](./amrit-water-ai-agent-demo.mp4)
+**Demo video (about 3 minutes):**  play it below 
 
 
 https://github.com/user-attachments/assets/643ce1c3-ecaa-41ec-b95a-2e33c7f90286
