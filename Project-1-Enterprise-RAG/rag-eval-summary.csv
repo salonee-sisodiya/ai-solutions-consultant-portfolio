@@ -1,0 +1,12 @@
+Round,Settings,Questions run,Correct,Partial,Wrong,Partial or better,Grounded rate,Out-of-scope handled
+R1,"v1 | Top K 10 (per v1 key); Q10-13 and Q16-17 graded at Top K 4, Q14-15 at Top K 6 (per row notes) | chunk 1500/300 | task type RETRIEVAL_DOCUMENT",25 of 25,4,2,19,24.0%,80.0%,3/3
+R2,v2 | Top K 4 | chunk 1500/300 | task type RETRIEVAL_DOCUMENT,11 of 25,3,2,6,45.5%,90.9%,2/2
+R3,v3 | Top K 4 | chunk 1500/300 | task type SEMANTIC_SIMILARITY | contents page removed from index,13 of 25,3,2,8,38.5%,38.5%,2/2
+
+"Like-for-like comparison: the 10 questions run in all three rounds (Q1, Q2, Q10, Q11, Q14, Q18, Q19, Q22, Q23, Q24)"
+Round,Correct,Partial,Wrong,Partial or better,Of which in-scope (excl. 2 out-of-scope controls)
+R1,3,0,7,3 of 10,1 of 8
+R2,3,2,5,5 of 10,3 of 8
+R3,3,0,7,3 of 10,1 of 8
+
+"Note: R1 was not a single fixed configuration. Q10-13 and Q16-17 were graded at Top K 4 and Q14-15 at Top K 6, so R1 vs R2/R3 comparisons are indicative, not controlled."
