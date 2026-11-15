@@ -2,7 +2,7 @@
 
 A no-code RAG (Retrieval-Augmented Generation) chatbot built in **Flowise** that answers questions about two Indian government AI policy documents, followed by a **3-round evaluation** that measures where it works and where it fails.
 
-
+![Workflow overview](screenshot/workflow%20overview.png)
 
 ## What it does
 
@@ -28,17 +28,19 @@ Ask a question in plain English and the bot answers from two source PDFs, or say
 
 ## Repository contents
 
-| File | Description |
+| Path | Description |
 |---|---|
-| `Multi -Doc RAG Chatflow.json` | Exported Flowise chatflow. Import it to reproduce the bot |
+| `chatflow/Multi -Doc RAG Chatflow.json` | Exported Flowise chatflow. Import it to reproduce the bot |
+| `chatflow/system-prompt.txt` | The system prompt (Response Prompt) used by the bot |
+| `evaluation/` | Three evaluation rounds (CSV) and a summary table |
+| `evaluation-summary.md` | Written analysis of the evaluation |
 | `Flowise case study.pdf` | Two-page case study |
-| `Evaluation` | Three evaluation rounds and a summary (see below) |
-| `pdf uploader.png`, `vector store.png`, `workflow overview.png`, `sample query response.png` | Screenshots of the build |
+| `screenshot/` | Screenshots of the build (PDF uploader, vector store, workflow, sample query) |
 
 ## How to run it
 
 1. Install Node.js 20, then run `npm install -g flowise` and `npx flowise start`.
-2. Open Flowise in your browser and go to **Chatflows → Add New → Settings → Load Chatflow**, then select `Multi -Doc RAG Chatflow.json`.
+2. Open Flowise in your browser and go to **Chatflows → Add New → Settings → Load Chatflow**, then select `chatflow/Multi -Doc RAG Chatflow.json`.
 3. Add your own **Groq** and **Google Gemini** API credentials to the chat model and embeddings nodes.
 4. Upload the two PDFs in the PDF loader nodes and click **Upsert**.
 5. Open the chat window and ask a question.
@@ -53,7 +55,7 @@ I tested the bot with a fixed set of **25 questions**: 18 single-document, 4 cro
 | R2 | Top K 4 | 11 | 3 | 2 | 6 | 45.5% | 90.9% | 2/2 |
 | R3 | Embedding task type changed, contents page removed from index | 13 | 3 | 2 | 8 | 38.5% | 38.5% | 2/2 |
 
-> R2 and R3 were partial runs, and R1 was not a single fixed configuration, so the rounds are **indicative, not a controlled comparison**. Details are in the [evaluation summary](Evaluation/evaluation-summary.md).
+> R2 and R3 were partial runs, and R1 was not a single fixed configuration, so the rounds are **indicative, not a controlled comparison**. Details are in the [evaluation summary](evaluation-summary.md).
 
 ### Key findings
 
@@ -74,34 +76,11 @@ These are hypotheses, not results:
 - Raise the max token limit to stop truncation.
 - Change one setting at a time. R3 changed two (task type and contents page), so its effect cannot be attributed to either.
 
-Full per-question results: [Round 1](Evaluation/rag-eval-round1.csv) · [Round 2](Evaluation/rag-eval-round2.csv) · [Round 3](Evaluation/rag-eval-round3.csv) · [Summary table](Evaluation/rag-eval-summary.csv)
+Full per-question results: [Round 1](evaluation/rag-eval-round1.csv) · [Round 2](evaluation/rag-eval-round2.csv) · [Round 3](evaluation/rag-eval-round3.csv) · [Summary table](evaluation/rag-eval-summary.csv)
 
 ## System prompt
 
-This is the Response Prompt used in the Conversational Retrieval QA Chain node. `{context}` is where Flowise inserts the retrieved chunks.
-
-```text
-I want you to act as a document that I am having a conversation with.
-Your name is "AI Assistant". Using the provided context, answer the
-user's question as helpfully and completely as possible, synthesizing
-across the chunks provided even if the answer isn't stated in a single
-sentence. Only say "Hmm, I'm not sure" if the context is completely
-unrelated to the question.
-
-When formatting your answer, use clean Markdown only (tables, bullet
-points, line breaks). Never include raw HTML tags such as <br>, <p>,
-or <div> in your response — convert them to proper line breaks or
-list items instead. Paraphrase and clean up any formatting artifacts
-from the source text rather than copying them verbatim.
-
-If generating a table, ensure every column is filled for every row —
-if information for a cell isn't available in the context, write "Not
-specified" rather than leaving it blank. Keep tables to 3 columns
-maximum unless more are explicitly requested.
-
-Context:
-{context}
-```
+The full Response Prompt used in the Conversational Retrieval QA Chain node is in [`chatflow/system-prompt.txt`](chatflow/system-prompt.txt). Flowise inserts the retrieved chunks where `{context}` appears.
 
 ## Author
 
