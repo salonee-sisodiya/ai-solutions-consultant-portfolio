@@ -1,170 +1,140 @@
 # AI Solutions Consultant Portfolio
 
-Enterprise AI | Generative AI | Retrieval-Augmented Generation (RAG) | Workflow Automation | Responsible AI
+Enterprise AI | Generative AI | RAG | AI Agents | Workflow Automation | Responsible AI
 
 ---
 
 ## About Me
 
-Computer Science graduate with a strong focus on Enterprise AI solutions, Generative AI consulting, and workflow automation.
+Computer Science graduate focused on practical AI solutions: RAG assistants, AI agents and responsible AI workflow design.
 
-My portfolio demonstrates practical experience designing AI systems that improve enterprise knowledge retrieval, automate business workflows, and support responsible AI adoption.
-
-Rather than focusing on model development, I specialize in solving business problems using modern AI platforms and low-code AI orchestration tools.
+I solve business problems with modern AI platforms and low-code orchestration tools, and I test my work. My RAG project includes a 3-round evaluation that shows where it fails, not just where it works.
 
 ---
 
 ## Core Skills
 
-- Enterprise AI Consulting
-- Generative AI
+- Generative AI and Prompt Engineering
 - Retrieval-Augmented Generation (RAG)
-- Prompt Engineering
-- Flowise AI
-- LangChain Concepts
-- Vector Databases
-- AI Workflow Automation
-- Responsible AI
-- AI Solution Architecture
-- Business Process Automation
-- Stakeholder Communication
+- AI Agents and Tool Use (n8n)
+- LLM Evaluation and Test Design
+- Flowise, n8n, WhatsApp Cloud API
+- Google Gemini Embeddings and Vector Search
+- Responsible AI and Human-in-the-loop Design
+- Business Analysis, BRD and Solution Design
 - Technical Documentation
 
 ---
 
 # Portfolio Projects
 
-## Project 1 — Enterprise Knowledge Assistant (RAG)
+| # | Project | Type | Status |
+|---|---|---|---|
+| 1 | Multi-Document RAG Assistant + 3-round evaluation | Working build | Demo, with published evaluation |
+| 2 | AI Ticket Triage | Design case study | Design only |
+| 3 | AI-assisted Examination Evaluation | Design case study | Design only |
+| 4 | Amrit Water WhatsApp AI Sales & Order Agent | Working build | Proof of concept, demo rates |
 
-Problem:
-Employees spend significant time searching across lengthy enterprise documents.
+## Project 1: Multi-Document RAG Assistant with 3-Round Evaluation
 
-Solution:
-Designed a Retrieval-Augmented Generation chatbot using Flowise that indexes enterprise documentation and provides contextual responses grounded in uploaded documents.
+A no-code chatbot built in Flowise that answers questions from two Indian government AI policy documents (NITI Aayog *National Strategy for AI* and the *Responsible AI for All* white paper), or says it doesn't know.
 
-Features
+- Stack: Flowise, Groq chat model, Google Gemini embeddings, in-memory vector store
+- Evaluated on a 25-question set (single-document, cross-document, out-of-scope), graded for correctness and grounding
+- Main finding: retrieval, not generation, was the failure point. The white paper was never retrieved in any round
+- Out-of-scope questions were never answered from general knowledge
+- The rounds are indicative, not a controlled comparison (see the evaluation summary)
 
-- Multi-document RAG
-- PDF ingestion
-- Semantic search
-- Google Gemini Embeddings
-- Conversational Retrieval QA
-- Memory-enabled chatbot
-
-Repository
-
-Project-1-Enterprise-RAG/
+Repository: [Project-1-Enterprise-RAG/](Project-1-Enterprise-RAG/)
 
 ---
 
-## Project 2 — AI Ticket Triage
+## Project 2: AI Ticket Triage (design case study)
 
-Business case describing how AI can classify support tickets using enterprise workflows while maintaining human oversight.
+How AI can classify and route support tickets with business rules, confidence handling and human review.
 
-Repository
-
-Project-2-AI-Ticket-Triage/
+Repository: [Project-2-AI-Ticket-Triage/](Project-2-AI-Ticket-Triage/)
 
 ---
 
-## Project 3 — AI-assisted Examination Evaluation
+## Project 3: AI-assisted Examination Evaluation (design case study)
 
-Case study proposing responsible AI-assisted evaluation for large-scale examinations with human-in-the-loop review.
+A responsible AI-assisted evaluation workflow for large-scale examinations, combining OCR, semantic comparison and rubric-guided scoring with human approval.
 
-Repository
-
-Project-3-AI-Evaluation-System/
+Repository: [Project-3-AI-Evaluation-System/](Project-3-AI-Evaluation-System/)
 
 ---
 
-## Project 4 — Amrit Water WhatsApp AI Assistant
+## Project 4: Amrit Water WhatsApp AI Sales & Order Agent
 
-Designed and implemented an AI-powered WhatsApp order assistant for a packaged drinking water business using WhatsApp Cloud API and n8n.
+A tool-using AI agent that answers price questions, takes and confirms wholesale water orders on WhatsApp, and escalates complaints, discounts and cancellations to the owner.
+
+> **Proof of concept.** Demo rates and test data only. Not a live deployment.
 
 ### Business Problem
 
-Manual WhatsApp order handling can lead to repetitive work, ambiguous order details, and inconsistent order capture.
+Customers rarely give all order details in one message, quotes depend on quantity slabs and delivery rules, and every order needs a record. Handling this by hand is slow and error-prone.
 
 ### Solution
 
-Built a controlled AI workflow that interprets customer messages, extracts structured order information, validates business requirements, persists order data, and requests explicit customer confirmation before an order is confirmed.
+An n8n AI agent (Google Gemini, per-customer memory) that chooses between six tools: price list, calculator, order lookup, save order, update order and owner alert. Prices come only from a rate table and totals only from a calculator. Orders are confirmed only after an explicit yes.
 
 ### Key Capabilities
 
 - WhatsApp Cloud API integration
-- AI-based order intent and information extraction
-- Structured order data
-- Business-rule validation
-- Order persistence
-- Customer confirmation workflow
-- Human-in-the-loop control
-- Sanitized n8n workflow for portfolio demonstration
+- English and Hinglish replies
+- Collects order details one question at a time
+- Updates drafts when the customer changes their mind
+- Escalates complaints, discounts, out-of-area delivery and cancellations to the owner
+- Never cancels a confirmed order itself
+- Reply check that blocks malformed model output
+
+### Testing
+
+14 scenario tests run through real WhatsApp conversations. 7 defects were found and fixed, including wrong totals from model arithmetic, leaked model reasoning and invented delivery status.
 
 ### Architecture
 
-Customer → WhatsApp → n8n → AI Order Extraction → Validation → Order Persistence → Customer Confirmation
+Customer (WhatsApp) → Meta Cloud API → n8n webhook → AI Agent (tools + memory) → reply check → WhatsApp reply. Owner alerts go to a separate WhatsApp number.
 
-**Core principle:** The LLM interprets customer intent; the workflow controls business execution.
+**Core principle:** The LLM interprets customer intent; the workflow and tools control business execution.
 
-Repository
-
-Project-4-Amrit-Water-WhatsApp-AI-Assistant/
+Repository: [Project-4-Amrit-Water-WhatsApp-AI-Assistant/](Project-4-Amrit-Water-WhatsApp-AI-Assistant/)
 
 ## Architecture
 
-See Architecture-Diagrams folder.
+See the [Architecture-Diagrams](Architecture-Diagrams/) folder.
 
 ---
 
 ## Resume
 
-Latest resume available in:
-
-[View / Download AI Solutions Consultant Resume](Resume/Salonee_Sisodiya_AI_Solutions_Consultant_Resume%20.pdf)
-
+[View / Download Resume (PDF)](Resume/Salonee_Sisodiya_Resume.pdf)
 
 ---
 
 ## Demo
 
-### Amrit Water — WhatsApp AI Order Assistant
+### Amrit Water: WhatsApp AI Agent
 
-[Watch the Amrit Water WhatsApp AI Demo](https://youtu.be/-EyeYV5iyWg)
+[Watch the Amrit Water WhatsApp AI demo](https://youtu.be/-EyeYV5iyWg)
 
-### Enterprise Knowledge Assistant — RAG
+### Multi-Document RAG Assistant
 
-[Watch the RAG / Flowise Demo]()[
-(https://youtu.be/DfR6QR0GL3s)]
-A
+[Watch the RAG / Flowise demo](https://youtu.be/DfR6QR0GL3s)
 
 ---
 
 ## Tech Stack
 
-Flowise
-
-Google Gemini
-
-Vector Store
-
-Prompt Engineering
-
-Retrieval-Augmented Generation
-
-GitHub
-
-Markdown
-
-PDF Knowledge Base
+Flowise · n8n · WhatsApp Cloud API · Google Gemini · Groq · n8n Data Tables · Vector Store · Prompt Engineering · RAG · GitHub · Markdown
 
 ---
 
 ## Connect
 
-LinkedIn
+[LinkedIn](https://www.linkedin.com/in/salonee-s-201564399)
 
-(https://www.linkedin.com/in/salonee-s-201564399)
+[GitHub](https://github.com/salonee-sisodiya/ai-solutions-consultant-portfolio)
 
-GitHub
-
-(https://github.com/salonee-sisodiya/ai-solutions-consultant-portfolio)
+saloneesisodiya.26@gmail.com
