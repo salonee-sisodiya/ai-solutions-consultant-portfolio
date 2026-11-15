@@ -2,7 +2,7 @@
 
 A no-code RAG (Retrieval-Augmented Generation) chatbot built in **Flowise** that answers questions about two Indian government AI policy documents, followed by a **3-round evaluation** that measures where it works and where it fails.
 
-![Workflow overview](workflow%20overview.png)
+![Workflow overview](Project-1-Enterprise-RAG/screenshot/workflow overview.png)
 
 ## What it does
 
