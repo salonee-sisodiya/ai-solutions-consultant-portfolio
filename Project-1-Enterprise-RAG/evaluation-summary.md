@@ -2,7 +2,7 @@
 
 Evaluation of the Flowise multi-document RAG chatbot (NITI Aayog *National Strategy for AI* + *Responsible AI for All* white paper) across three rounds.
 
-Raw data: [Round 1](rag-eval-round1.csv) · [Round 2](rag-eval-round2.csv) · [Round 3](rag-eval-round3.csv) · [Summary table](rag-eval-summary.csv)
+Raw data: [Round 1](evaluation/rag-eval-round1.csv) · [Round 2](evaluation/rag-eval-round2.csv) · [Round 3](evaluation/rag-eval-round3.csv) · [Summary table](evaluation/rag-eval-summary.csv)
 
 ## Method
 
