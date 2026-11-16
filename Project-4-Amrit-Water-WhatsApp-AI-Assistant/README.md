@@ -17,7 +17,7 @@ https://github.com/user-attachments/assets/643ce1c3-ecaa-41ec-b95a-2e33c7f90286
 
 | Version | What it is | Status |
 | --- | --- | --- |
-| v1: AI assistant | Fixed flow: extract order details, apply rules, save, reply | Superseded. [Read the v1 README](./README-v1-assistant.md); v1 files stay in `docs/` and `workflow/` |
+| v1: AI assistant | Fixed flow: extract order details, apply rules, save, reply | Superseded. [Read the v1 README]((./docs/archive/README-v1-Assistant.md)); v1 files stay in `docs/` and `workflow/` |
 | v2: AI agent | One agent that chooses tools, remembers each customer, quotes from a price table and escalates to a human | **Current** |
 
 Why v2 exists: in v1, general questions (price, location) got no reply, there was no memory between messages, and incomplete orders created duplicate pending rows. v2 fixes these by letting the model decide which tool to call, within strict rules.
